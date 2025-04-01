@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setError, setLoading, setPokemons } from "../store/pokemon/pokemonSlice";
 
 const API_URL = "https://pokeapi.co/api/v2/pokemon";
-const limit = 6;
+const limit = 1000;
 
 export function usePokemonStore() {
   const dispatch = useDispatch();

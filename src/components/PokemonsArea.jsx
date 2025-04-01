@@ -1,30 +1,37 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { usePokemonStore } from "../hooks/usePokemonStore";
 import PokemonCard from "./PokemonCard";
+import { LoadingSpinner } from "./LoadingSpinner";
 
 export function PokemonsArea() {
 
-  const { startGetPokemonsFromAPI, pokemons } = usePokemonStore();
+  const [currentPage, setCurrentPage] = useState(1)
+  const { startGetPokemonsFromAPI, pokemons, status } = usePokemonStore();
 
   useEffect(() => {
-    startGetPokemonsFromAPI();
-  }, [])
+    startGetPokemonsFromAPI(currentPage);
+  }, [currentPage])
   
+  if (status === "loading") {
+    return <LoadingSpinner />
+  }
+
   return (
     <main>
       <div className="container mx-auto px-4 py-6">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 shadow-md">
           {
             pokemons.map((pokemon)=> (
-              <PokemonCard key={pokemon.id} pokemon={pokemon} />
+              <PokemonCard key={pokemon.id} pokemon={pokemon} status={status}/>
             ))
           }
         </div>
 
         <div className="flex justify-center items-center mt-8">
           <button
-            className="px-4 py-2 bg-stone-950 text-white rounded-lg hover:bg-stone-700 disabled:opacity-50 transition-colors cursor-pointer"
-          >
+            disabled={currentPage === 1}
+            onClick={() => setCurrentPage(currentPage - 1)}
+            className="px-4 py-2 bg-stone-950 text-white rounded-lg hover:bg-stone-700 disabled:opacity-50 transition-colors cursor-pointer disabled disabled:cursor-auto">
             Anterior
           </button>
 
@@ -32,6 +39,7 @@ export function PokemonsArea() {
           </span>
 
           <button
+            onClick={() => setCurrentPage(currentPage + 1)}
             className="px-4 py-2 bg-stone-950 text-white rounded-lg hover:bg-stone-700 disabled:opacity-50 transition-colors cursor-pointer"
           >
             Siguiente
