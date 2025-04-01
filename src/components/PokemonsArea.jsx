@@ -1,14 +1,24 @@
+import { useEffect } from "react";
+import { usePokemonStore } from "../hooks/usePokemonStore";
+import PokemonCard from "./PokemonCard";
+
 export function PokemonsArea() {
+
+  const { startGetPokemonsFromAPI, pokemons } = usePokemonStore();
+
+  useEffect(() => {
+    startGetPokemonsFromAPI();
+  }, [])
+  
   return (
     <main>
-      <div className="container mx-auto h-screen px-4 py-8">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 shadow-md p-4">
-          <h1>Item1</h1>
-          <h1>Item2</h1>
-          <h1>Item3</h1>
-          <h1>Item4</h1>
-          <h1>Item5</h1>
-          <h1>Item6</h1>
+      <div className="container mx-auto px-4 py-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 shadow-md">
+          {
+            pokemons.map((pokemon)=> (
+              <PokemonCard key={pokemon.id} pokemon={pokemon} />
+            ))
+          }
         </div>
 
         <div className="flex justify-center items-center mt-8">

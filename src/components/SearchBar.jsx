@@ -1,6 +1,6 @@
 export function SearchBar() {
   return (
-    <form className="flex justify-center mb-12">
+    <form className="flex justify-center mb-2 md:p-0 p-4">
       <input
         type="text"
         placeholder="Buscar un Pokémon..."
