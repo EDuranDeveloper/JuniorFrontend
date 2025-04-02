@@ -61,6 +61,33 @@ export function usePokemonStore() {
     }
   };
 
+  const startGetPokemonBySearch = async (searchTerm) => {
+    dispatch(setLoading());
+
+    try {
+      const res = await fetch(`${API_URL}/${searchTerm.toLowerCase()}`);
+      if (!res.ok) {
+        throw new Error("Pokémon no encontrado");
+      }
+      const data = await res.json();
+
+      const officialArtwork = data.sprites.other["official-artwork"].front_default;
+
+      const detailedPokemon = {
+        id: data.id,
+        name: data.name,
+        image: officialArtwork,
+        types: data.types,
+        weight: data.weight / 10,
+        height: data.height / 10,
+      };
+
+      dispatch(setPokemons([detailedPokemon])); 
+    } catch (err) {
+      dispatch(setError(err.message));
+    }
+  };
+
   return {
     //Attributes 
     pokemons, 
@@ -71,5 +98,6 @@ export function usePokemonStore() {
     //Methods 
     startGetPokemonsFromAPI, 
     startGetAllPokemonNames,
+    startGetPokemonBySearch,
    };
 }

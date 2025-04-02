@@ -4,7 +4,7 @@ import { usePokemonStore } from "../hooks/usePokemonStore";
 export function SearchBar() {
   const [searchTerm, setSearchTerm] = useState("");
   const [suggestions, setSuggestions] = useState([]);
-  const { startGetAllPokemonNames, allPokemonNames } = usePokemonStore();  
+  const { startGetAllPokemonNames, allPokemonNames, startGetPokemonBySearch } = usePokemonStore();  
   const suggestionsRef = useRef(null);
 
   useEffect(() => {
@@ -34,9 +34,15 @@ export function SearchBar() {
     setSuggestions([]);
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    startGetPokemonBySearch(searchTerm)
+    setSearchTerm(() => setSearchTerm(""))
+  }
+
   return (
     <>
-      <form className="flex justify-center md:p-0 p-4 search-container">
+      <form onSubmit={handleSubmit} className="flex justify-center md:p-0 p-4 search-container">
         <div className="relative w-3xl">
           <input
             type="text"
