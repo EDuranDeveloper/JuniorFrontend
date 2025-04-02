@@ -12,7 +12,7 @@ const PokemonCard = ({ pokemon, status }) => {
 
   return (
     <div className="bg-white p-4 rounded-lg shadow-md text-center relative">
-      <div className="absolute top-5 left-5 bg-gray-100 flex justify-center items-center text-5xl font-bold text-gray-500 opacity-30">
+      <div className="absolute top-5 left-5 bg-gray-100 flex justify-center items-center text-5xl sm:text-3xl md:text-3xl lg:text-4xl font-bold text-gray-500 opacity-30">
         #{formatPokemonNumber(pokemon.id)}{" "} 
       </div>
       <div className="flex justify-center">

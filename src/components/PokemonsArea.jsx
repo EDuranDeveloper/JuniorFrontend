@@ -18,7 +18,7 @@ export function PokemonsArea() {
   return (
     <main>
       <div className="container mx-auto px-4 py-6">
-        <div className={`grid gap-6 shadow-md ${pokemons.length === 1 ? 'grid-cols-1' : 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3'}`}>
+        <div className={`grid gap-6 shadow-md ${pokemons.length === 1 ? 'grid-cols-1' : 'grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3'}`}>
           {pokemons.map((pokemon) => (
             <PokemonCard key={pokemon.id} pokemon={pokemon} status={status} />
           ))}
