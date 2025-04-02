@@ -1,12 +1,12 @@
 import { useDispatch, useSelector } from "react-redux";
-import { setError, setLoading, setPokemons } from "../store/pokemon/pokemonSlice";
+import { setAllPokemonNames, setError, setLoading, setPokemons } from "../store/pokemon/pokemonSlice";
 
 const API_URL = "https://pokeapi.co/api/v2/pokemon";
-const limit = 1000;
+const limit = 6;
 
 export function usePokemonStore() {
   const dispatch = useDispatch();
-  const { pokemons, status, error } = useSelector((state) => state.pokemon);
+  const { pokemons, status, error, allPokemonNames } = useSelector((state) => state.pokemon);
 
   const startGetPokemonsFromAPI = async (page) => {
     const offset = (page - 1) * limit;
@@ -28,17 +28,48 @@ export function usePokemonStore() {
             name: pokemonData.name,
             image: officialArtwork,
             types: pokemonData.types, 
+            weight: (pokemonData.weight / 10),
+            height: (pokemonData.height / 10)
           }
         })
       );
 
       dispatch(setPokemons(detailedPokemons));
-    //   console.log(detailedPokemons);
 
     } catch (err) {
       dispatch(setError(err.message));
     }
   };
 
-  return { pokemons, status, error, startGetPokemonsFromAPI };
+  const startGetAllPokemonNames = async () => {
+    dispatch(setLoading());
+    
+    if (allPokemonNames.length > 0) return;
+
+    try {
+      const res = await fetch(`${API_URL}?limit=10000`);
+      const data = await res.json();
+
+      const namesList = data.results.map((pokemon) => ({
+        name: pokemon.name,
+        url: pokemon.url,
+      }));
+
+      dispatch(setAllPokemonNames(namesList));
+    } catch (err) {
+      dispatch(setError(err.message));
+    }
+  };
+
+  return {
+    //Attributes 
+    pokemons, 
+    status, 
+    error, 
+    allPokemonNames,
+
+    //Methods 
+    startGetPokemonsFromAPI, 
+    startGetAllPokemonNames,
+   };
 }

@@ -4,12 +4,17 @@ export const pokemonSlice = createSlice({
   name: "pokemon",
   initialState: {
     pokemons: [],
+    allPokemonNames: [],
     status: "idle", // "idle" | "loading" | "succeeded" | "failed"
     error: null,
   },
   reducers: {
     setPokemons: (state, action) => {
       state.pokemons = action.payload;
+      state.status = "succeeded";
+    },
+    setAllPokemonNames: (state, action) => {
+      state.allPokemonNames = action.payload;
       state.status = "succeeded";
     },
     setLoading: (state) => {
@@ -22,4 +27,4 @@ export const pokemonSlice = createSlice({
   },
 });
 
-export const { setPokemons, setLoading, setError } = pokemonSlice.actions;
+export const { setPokemons, setLoading, setError, setAllPokemonNames } = pokemonSlice.actions;
