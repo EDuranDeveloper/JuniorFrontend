@@ -18,8 +18,8 @@ export function PokemonsArea() {
   if (status === "failed") {
     return (
       <div className="flex flex-col items-center justify-center h-40">
-      <h1 className="text-xl font-bold text-red-600">Ha ocurrido un error</h1>
-      <p className="text-gray-500">Por favor, intenta con otro nombre o verifica la información.</p>
+      <h1 className="md:text-xl text-md font-bold text-red-600">Ha ocurrido un error</h1>
+      <p className="text-gray-500 md:text-md text-sm text-center p-2">Por favor, intenta con otro nombre o verifica la información.</p>
     </div>
     )
   }

@@ -1,14 +1,22 @@
+import { useEffect, useState } from "react";
 import { pokemonTypes } from "../helpers/pokemonTypes";
 
 const PokemonCard = ({ pokemon, status }) => {
-  if (status === "loading") {
-    return <LoadingSpinner />;
-  }
+
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   const formatPokemonNumber = (id) => {
     if(id >= 100) return id
     return id.toString().padStart(3, '0'); 
   };
+
+  useEffect(() => {
+    const img = new Image();
+    img.src = pokemon.image;
+    img.onload = () => setImageLoaded(true);
+  }, [pokemon.image]);
+
+  if (!imageLoaded) return null;
 
   return (
     <div className="bg-white p-4 rounded-lg shadow-md text-center relative">
