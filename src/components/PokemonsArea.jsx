@@ -15,6 +15,15 @@ export function PokemonsArea() {
     return <LoadingSpinner />;
   }
 
+  if (status === "failed") {
+    return (
+      <div className="flex flex-col items-center justify-center h-40">
+      <h1 className="text-xl font-bold text-red-600">Ha ocurrido un error</h1>
+      <p className="text-gray-500">Por favor, intenta con otro nombre o verifica la información.</p>
+    </div>
+    )
+  }
+
   return (
     <main>
       <div className="container mx-auto px-4 py-6">
