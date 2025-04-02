@@ -45,5 +45,5 @@ Para ejecutar la aplicación localmente, simplemente utiliza:
 npm start
 ```
 
-Esto iniciará el servidor de desarrollo y abrirá la aplicación en http://localhost:3000.
+Esto iniciará el servidor de desarrollo y abrirá la aplicación en http://localhost:5174.
 
