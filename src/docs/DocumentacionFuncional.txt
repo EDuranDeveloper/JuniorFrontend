@@ -1,0 +1,33 @@
+Documentación Funcional para el Proyecto "Pokémon Test Junior Frontend"
+
+1. Descripción General del Proyecto
+La Pokémon Test Junior Frontend es una aplicación web que permite a los usuarios explorar, buscar y obtener detalles de los Pokémon de forma interactiva. Los usuarios pueden buscar Pokémon por nombre, navegar a través de múltiples páginas de resultados y ver información basica sobre cada Pokémon.
+
+Objetivo del Proyecto
+El objetivo del proyecto es poder dar a conocer mi nivel en el mundo de la programacion con un test creado desde 0.
+
+2. Requisitos Funcionales
+
+2.1. Pantalla Principal
+Descripción: En la pantalla principal se muestra una lista de 6 Pokémon, cada uno representado por una tarjeta con detalles básicos, como el nombre, la imagen y el ID.
+
+2.2. Búsqueda de Pokémon
+Descripción: Los usuarios pueden buscar Pokémon por nombre.
+
+2.3. Paginación
+Descripción: Dado que el número total de Pokémon es muy grande, los resultados de la API se dividen en páginas con 6 Pokémon cada una como en el enunciado.
+
+3. Requisitos No Funcionales
+
+3.1. Rendimiento
+La aplicación debe cargar y mostrar los datos de los Pokémon en menos de 2 segundos para una experiencia de usuario fluida.
+
+La paginación debe cargarse de manera eficiente, sin retrasos significativos.
+
+3.2. Usabilidad
+La interfaz debe ser sencilla y amigable para los usuarios.
+
+La búsqueda debe proporcionar resultados rápidamente y de manera eficiente.
+
+Conclusiones
+Esta documentación funcional proporciona un desglose claro de cómo se espera que funcione la aplicación desde el punto de vista del usuario.

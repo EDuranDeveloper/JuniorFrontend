@@ -1,0 +1,98 @@
+Documentación Técnica para el Proyecto "Pokémon Test Junior Frontend"
+
+1. Introducción
+En este proyecto se utiliza Redux para gestionar el estado de los Pokémon y sus nombres. Redux ayuda a mantener un flujo de datos predecible y centralizado, lo que facilita la gestión del estado en aplicaciones grandes y complejas.
+
+Funcionalidades Implementadas en Redux
+Gestión de Pokémon Renderizados: Los Pokémon que se mostrarán en la pantalla se obtienen de la API y se guardan en el estado global mediante Redux.
+
+Almacenamiento de Nombres de Todos los Pokémon: Para mejorar la experiencia de búsqueda, se almacenan los nombres de todos los Pokémon en el estado, sin las imágenes, lo que permite una búsqueda más rápida.
+
+2. Configuración de Redux
+
+2.1. Estructura del Estado de Redux
+La estructura del estado de la tienda (store) en Redux está definida de la siguiente manera:
+
+const initialState = {
+  pokemons: [],          // Lista de Pokémon que se mostrarán en pantalla
+  allPokemonNames: [],   // Lista de nombres de todos los Pokémon para la búsqueda
+  status: "idle",        // Estado de carga: "idle", "loading", "succeeded", "failed"
+  error: null,           // Mensaje de error si algo sale mal
+};
+
+2.2. Funciones Asíncronas y Despacho de Acciones en Hook Personalizado (Custom Hook)
+A continuación, mostramos cómo se utilizan las funciones asíncronas en el hook personalizado usePokemonStore para obtener los datos de la API y despachar las acciones correspondientes a Redux.
+
+2.2.1. Obtener Pokémon y Guardar en el Estado
+
+const startGetPokemonsFromAPI = async (page) => {
+  const offset = (page - 1) * limit;
+  dispatch(setLoading());  // Cambia el estado a "loading"
+
+  try {
+    const res = await fetch(`${API_URL}?limit=${limit}&offset=${offset}`);
+    const data = await res.json();
+
+    const detailedPokemons = await Promise.all(
+      data.results.map(async (pokemon) => {
+        const res = await fetch(pokemon.url);
+        const pokemonData = await res.json();
+
+        const officialArtwork = pokemonData.sprites.other["official-artwork"].front_default;
+
+        return {
+          id: pokemonData.id,
+          name: pokemonData.name,
+          image: officialArtwork,
+          types: pokemonData.types,
+          weight: (pokemonData.weight / 10),
+          height: (pokemonData.height / 10),
+        };
+      })
+    );
+
+    dispatch(setPokemons(detailedPokemons));  // Almacena los Pokémon en el estado
+  } catch (err) {
+    dispatch(setError(err.message));  // Maneja errores si ocurren
+  }
+};
+
+2.4.2. Obtener los Nombres de Todos los Pokémon
+
+const startGetAllPokemonNames = async () => {
+  dispatch(setLoading());
+
+  if (allPokemonNames.length > 0) return;
+
+  try {
+    const res = await fetch(`${API_URL}?limit=10000`);
+    const data = await res.json();
+
+    const namesList = data.results.map((pokemon) => ({
+      name: pokemon.name,
+      url: pokemon.url,
+    }));
+
+    dispatch(setAllPokemonNames(namesList));  // Almacena los nombres de todos los Pokémon
+  } catch (err) {
+    dispatch(setError(err.message));  // Maneja errores si ocurren
+  }
+};
+
+3. Uso de Redux en los Componentes de la Aplicación
+
+3.1. Componente de Búsqueda
+El hook usePokemonStore también se puede utilizar en el componente de búsqueda para acceder a los nombres de todos los Pokémon y permitir la búsqueda rápida:
+
+const { allPokemonNames } = usePokemonStore();
+
+const handleSearch = (searchTerm) => {
+  const filteredPokemons = allPokemonNames.filter(pokemon => 
+    pokemon.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+  // Lógica para mostrar los Pokémon filtrados
+};
+
+4. Conclusiones 
+
+Con Redux, hemos logrado centralizar el estado de la aplicación y gestionar la carga de los datos de manera eficiente. Utilizando acciones, reducers y despacho de acciones. Sin dudarlo utilizar un hook personalizado hace mas facil la comprension de todo el programa y que es lo que realiza cada funcion dentro de este. Además, almacenamos los nombres de todos los Pokémon para mejorar la experiencia de usuario en la búsqueda, mientras que solo mostramos 6 Pokémon por página para facilitar la navegación.
