@@ -18,41 +18,60 @@ export function PokemonsArea() {
   if (status === "failed") {
     return (
       <div className="flex flex-col items-center justify-center h-40">
-      <h1 className="md:text-xl text-md font-bold text-red-600">Ha ocurrido un error</h1>
-      <p className="text-gray-500 md:text-md text-sm text-center p-2">Por favor, intenta con otro nombre o verifica la información.</p>
-    </div>
-    )
+        <h1 className="md:text-xl text-md font-bold text-red-600">
+          Ha ocurrido un error
+        </h1>
+        <p className="text-gray-500 md:text-md text-sm text-center p-2">
+          Por favor, intenta con otro nombre o verifica la información.
+        </p>
+      </div>
+    );
   }
 
   return (
     <main>
       <div className="container mx-auto px-4 py-6">
-        <div className={`grid gap-6 shadow-md ${pokemons.length === 1 ? 'grid-cols-1' : 'grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3'}`}>
+        <div
+          className={`grid gap-6 shadow-md ${
+            pokemons.length === 1
+              ? "grid-cols-1"
+              : "grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3"
+          }`}
+        >
           {pokemons.map((pokemon) => (
             <PokemonCard key={pokemon.id} pokemon={pokemon} status={status} />
           ))}
         </div>
 
-        {
-          pokemons.length === 1 ? <> </> : <div className="flex justify-center items-center mt-8">
-          <button
-            disabled={currentPage === 1}
-            onClick={() => setCurrentPage(currentPage - 1)}
-            className="px-4 py-2 bg-stone-950 text-white rounded-lg hover:bg-stone-700 disabled:opacity-50 transition-colors cursor-pointer disabled disabled:cursor-auto"
-          >
-            Anterior
-          </button>
+        {pokemons.length === 1 ? (
+          <div className="flex justify-center items-center mt-8">
+            <button
+              onClick={() => (window.location.href = "/")}
+              className="flex justify-center items-center px-6 py-3 bg-stone-950 text-white rounded-lg hover:bg-stone-700 disabled:opacity-50 transition-colors cursor-pointer"
+            >
+              Volver
+            </button>
+          </div>
+        ) : (
+          <div className="flex justify-center items-center mt-8">
+            <button
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage(currentPage - 1)}
+              className="px-4 py-2 bg-stone-950 text-white rounded-lg hover:bg-stone-700 disabled:opacity-50 transition-colors cursor-pointer disabled disabled:cursor-auto"
+            >
+              Anterior
+            </button>
 
-          <span className="mx-4 text-lg font-medium"></span>
+            <span className="mx-4 text-lg font-medium"></span>
 
-          <button
-            onClick={() => setCurrentPage(currentPage + 1)}
-            className="px-4 py-2 bg-stone-950 text-white rounded-lg hover:bg-stone-700 disabled:opacity-50 transition-colors cursor-pointer"
-          >
-            Siguiente
-          </button>
-        </div>
-        }
+            <button
+              onClick={() => setCurrentPage(currentPage + 1)}
+              className="px-4 py-2 bg-stone-950 text-white rounded-lg hover:bg-stone-700 disabled:opacity-50 transition-colors cursor-pointer"
+            >
+              Siguiente
+            </button>
+          </div>
+        )}
       </div>
     </main>
   );
